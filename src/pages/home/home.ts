@@ -12,4 +12,16 @@ export class HomePage {
 
   }
 
+  /*aula 115
+  método que faz a navegação da pagina home
+  para a página Categorias */
+  login() {
+    //push empilha uma pagina em cima de outra, passando como parametro o nome da classe
+    //this.navCtrl.push('CategoriasPage');
+
+    //não empilha e elimina o botão voltar para tela anterior
+    this.navCtrl.setRoot('CategoriasPage');
+
+  }
+
 }
