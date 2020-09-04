@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { CategoriaService } from '../../services/domain/categoria.service';
+import { CategoriaDTO } from '../../models/categoria.dto';
+import { API_CONFIG } from '../../config/api.config';
 
 @IonicPage()
 @Component({
@@ -8,6 +10,15 @@ import { CategoriaService } from '../../services/domain/categoria.service';
   templateUrl: 'categorias.html',
 })
 export class CategoriasPage {
+
+  /* utilizado no categorias.html 
+  faz referencia a URL do bucket no aws */
+  bucketUrl: string = API_CONFIG.bucketBaseUrl;
+  
+  /*utilizado no categorias.html
+  busca as categorias no banco*/
+  items: CategoriaDTO[];
+ 
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -33,7 +44,7 @@ export class CategoriasPage {
     a resposta obtiver um erro, ambas separadas pela virgula*/
     this.categoriaService.findAll()
       .subscribe(response => {
-        console.log(response);
+        this.items = response;
       },
       error => {
         console.log(error);
