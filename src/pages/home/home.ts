@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, IonicPage, MenuController } from 'ionic-angular';
+import { CredenciaisDTO } from '../../models/credenciais.dto';
 
 @IonicPage()
 @Component({
@@ -7,6 +8,13 @@ import { NavController, IonicPage, MenuController } from 'ionic-angular';
   templateUrl: 'home.html'
 })
 export class HomePage {
+
+  /*aula 120
+  injeta objeto para trabalhar com binding na pagina de login*/
+  creds: CredenciaisDTO = {
+    email: "",
+    senha: ""
+  };
 
   constructor(public navCtrl: NavController, public menu: MenuController) {
 
@@ -16,6 +24,8 @@ export class HomePage {
   método que faz a navegação da pagina home
   para a página Categorias */
   login() {
+
+    console.log(this.creds);
     //push empilha uma pagina em cima de outra, passando como parametro o nome da classe
     //this.navCtrl.push('CategoriasPage');
 
@@ -31,13 +41,13 @@ export class HomePage {
   .
   .
   tem função de executar algo quando entrar NESTA pagina HOME */
-  ionViewWillEnter(){
+  ionViewWillEnter() {
     //desativa menu/deslize para a direita
     this.menu.swipeEnable(false);
   }
 
   /*tem função de executar algo quando SAIR desta pagina HOME */
-  ionViewDidLeave(){
+  ionViewDidLeave() {
     //ativa menu
     this.menu.swipeEnable(true);
   }

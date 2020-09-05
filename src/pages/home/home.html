@@ -6,11 +6,13 @@
   <form>
     <ion-item>
       <ion-label stacked>Email</ion-label>
-      <ion-input type="email"></ion-input>
+      <!--o trecho [(ngModel)]="creds.email" é uma combinação entr binding de atributo de elemento HTML  [] 
+      e binding de evento ()... ele pega os valores do valor injetado na variavel creds em home.html-->
+      <ion-input [(ngModel)]="creds.email" name="email" type="email"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label stacked>Senha</ion-label>
-      <ion-input type="password"></ion-input>
+      <ion-input [(ngModel)]="creds.senha" name="senha" type="password"></ion-input>
     </ion-item>
 
     <button ion-button block (click)="login()">Entrar</button>
