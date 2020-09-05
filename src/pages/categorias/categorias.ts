@@ -47,7 +47,10 @@ export class CategoriasPage {
         this.items = response;
       },
       error => {
-        console.log(error);
+        /*na aula 119 foi modificado esta declaracao.
+        Foi deletado um tratamento de erro simples e criado
+        o error-interceptor.ts para interceptar os erros, passando a responsabilidade
+        pare o interceptor de imprimir na tela o erro*/
       });
 
   }
