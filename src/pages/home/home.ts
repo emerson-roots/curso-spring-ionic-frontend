@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, IonicPage, MenuController } from 'ionic-angular';
 import { CredenciaisDTO } from '../../models/credenciais.dto';
+import { AuthService } from '../../services/auth.service';
 
 @IonicPage()
 @Component({
@@ -16,7 +17,10 @@ export class HomePage {
     senha: ""
   };
 
-  constructor(public navCtrl: NavController, public menu: MenuController) {
+  constructor(
+    public navCtrl: NavController,
+    public menu: MenuController,
+    public auth: AuthService) {
 
   }
 
@@ -25,14 +29,19 @@ export class HomePage {
   para a página Categorias */
   login() {
 
-    console.log(this.creds);
-    //push empilha uma pagina em cima de outra, passando como parametro o nome da classe
-    //this.navCtrl.push('CategoriasPage');
-
-    //não empilha e elimina o botão voltar para tela anterior
-    this.navCtrl.setRoot('CategoriasPage');
-
+    /* aula 121 
+    se vier uma resposta com sucesso, imprime no console a resposta response.headers.get('Authorization') */
+    this.auth.authenticate(this.creds)
+      .subscribe(response => {
+        console.log(response.headers.get('Authorization'));
+        //setRoot não empilha e elimina o botão voltar para tela anterior
+        this.navCtrl.setRoot('CategoriasPage');
+      },
+        error => { });
   }
+
+
+
 
   /* aula 116
   aprendido sobre eventos ao carregar ou sair de paginas
