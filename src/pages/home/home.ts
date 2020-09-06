@@ -30,10 +30,10 @@ export class HomePage {
   login() {
 
     /* aula 121 
-    se vier uma resposta com sucesso, imprime no console a resposta response.headers.get('Authorization') */
+    se vier uma resposta com sucesso, chama função sucessfulLogin, passando como parametro o bearer/token */
     this.auth.authenticate(this.creds)
       .subscribe(response => {
-        console.log(response.headers.get('Authorization'));
+        this.auth.sucessfulLogin(response.headers.get('Authorization'));
         //setRoot não empilha e elimina o botão voltar para tela anterior
         this.navCtrl.setRoot('CategoriasPage');
       },
