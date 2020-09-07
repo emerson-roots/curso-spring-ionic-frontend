@@ -4,10 +4,14 @@ import { HttpClient } from "@angular/common/http";
 import { API_CONFIG } from "../config/api.config";
 import { LocalUser } from "../models/local_user";
 import { StorageService } from "./storage.service";
+import { JwtHelper } from "angular2-jwt";
+
 
 //aula 121
 @Injectable()
 export class AuthService{
+
+    jwtHelper: JwtHelper = new JwtHelper();
 
     /*construtor injetando um HttpCliente que envia para o backend o dados de 
     credenciais como login e senha para o endpoint login*/
@@ -38,7 +42,8 @@ export class AuthService{
 
         //seta um usuario com token valido
         let user: LocalUser = {
-            token: tok
+            token: tok,
+            email: this.jwtHelper.decodeToken(tok).sub
         };
 
         //armazena no local storage o usuário com token valido
