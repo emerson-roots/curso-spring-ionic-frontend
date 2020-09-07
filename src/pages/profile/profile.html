@@ -10,6 +10,12 @@
 </ion-header>
 
 <ion-content padding>
-  {{ email }}
+  <!-- aula 125 - 10:00 -->
+  <ion-avatar>
+    <!-- [src] - source entre colchetes significa que é um binding de dados -->
+    <img class="circle" [src]="cliente?.imageUrl || 'assets/imgs/avatar-blank.png'">
+  </ion-avatar>
+  <h2 text-center>{{cliente?.nome}}</h2>
+  <p text-center>{{cliente?.email}}</p>
 
 </ion-content>
