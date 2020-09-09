@@ -12,7 +12,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         
         //teste da interceptação
-        console.log("Passou no interceptor");
+        //console.log("Passou no interceptor");
 
         //caso ocorra tudo bem, continua com a requisição
         return next.handle(req)

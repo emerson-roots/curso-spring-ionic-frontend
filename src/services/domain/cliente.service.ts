@@ -13,20 +13,11 @@ export class ClienteService {
 
     }
 
+    /* método implementado na aula 125 porém foi alterada na aula 126 */
     findByEmail(email: string): Observable<ClienteDTO> {
 
-        /* IMPLEMENTAÇÃO PROVISÓRIA - SERA RETIRADO POSTERIORMENTE
-        =========================================================*/
-        //armazena token
-        let token = this.storage.getLocalUser().token;
-        //adiciona token ao cabeçalho authorization
-        let authHeader = new HttpHeaders({ 'Authorization': 'Bearer ' + token });
-        /*=========================================================*/
-
-
         //retorna a requisição do tipo Observable<ClienteDTO> em conjunto do cabeçalho com token
-        return this.http.get<ClienteDTO>(`${API_CONFIG.baseUrl}/clientes/email?value=${email}`,
-            { 'headers': authHeader })
+        return this.http.get<ClienteDTO>(`${API_CONFIG.baseUrl}/clientes/email?value=${email}`);
     }
 
     //aula 125
