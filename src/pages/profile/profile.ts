@@ -29,7 +29,16 @@ export class ProfilePage {
           this.cliente = response;
           this.getImageIfExists();
         },
-          error => { });
+          error => {
+            /*aula 127 - 
+            caso gere erro, redireciona para a pagina inicial */
+            if (error.status == 403) {
+              this.navCtrl.setRoot('HomePage');
+            }
+          });
+    } else {
+      //aula 127 - redireciona para pagina inicial caso de erro no localUser
+      this.navCtrl.setRoot('HomePage');
     }
   }
 
