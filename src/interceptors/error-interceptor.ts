@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx'; // IMPORTANTE: IMPORT ATUALIZADO
 import { StorageService } from '../services/storage.service';
+import { AlertController } from 'ionic-angular';
 
 /*aula 119
 esta classe tem a função de captar os propagar os
@@ -10,7 +11,7 @@ erros
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
-    constructor(public storage : StorageService){
+    constructor(public storage : StorageService, public alertCtrl : AlertController){
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -41,13 +42,52 @@ export class ErrorInterceptor implements HttpInterceptor {
 
             //aula 127
             switch(errorObj.status){
+
+                case 401:
+                    this.handle401();
+                    break;
                 case 403:
                     this.handle403();
                     break;
+                default:
+                    this.handleDefaultError(errorObj);
             }
 
             return Observable.throw(errorObj);
         }) as any;
+    }
+
+    //aula 128
+    handleDefaultError(errorObj){
+        let alert = this.alertCtrl.create({
+            title: 'Erro ' + errorObj.status + ': ' + errorObj.error,
+            message: errorObj.message,
+            //define se o usuario deve clicar no botão da mensagem ou se pode clicar em qlqr lugar na tela para sair
+            enableBackdropDismiss: false,
+            //define botões pro alert
+            buttons: [
+                {text: 'OK'}
+            ]
+        });
+        //mostra o alert
+        alert.present();
+    }
+
+    /* aula 128
+    intercepta erro e mostra para o usuario com o "Alert" */
+    handle401(){
+        let alert = this.alertCtrl.create({
+            title:'Erro 401 falha de autenticação',
+            message: 'Email ou senha incorretos',
+            //define se o usuario deve clicar no botão da mensagem ou se pode clicar em qlqr lugar na tela para sair
+            enableBackdropDismiss: false,
+            //define botões pro alert
+            buttons: [
+                {text: 'OK'}
+            ]
+        });
+        //mostra o alert
+        alert.present();
     }
 
     /*aula 127 
