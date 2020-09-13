@@ -40,9 +40,6 @@ export class HomePage {
         error => { });
   }
 
-
-
-
   /* aula 116
   aprendido sobre eventos ao carregar ou sair de paginas
   mais infos no site/documentação do ionic
@@ -59,6 +56,18 @@ export class HomePage {
   ionViewDidLeave() {
     //ativa menu
     this.menu.swipeEnable(true);
+  }
+
+  //aula 129
+  ionViewDidEnter(){
+
+    this.auth.refreshToken()
+      .subscribe(response => {
+        this.auth.sucessfulLogin(response.headers.get('Authorization'));
+        //setRoot não empilha e elimina o botão voltar para tela anterior
+        this.navCtrl.setRoot('CategoriasPage');
+      },
+        error => { });
   }
 
 }

@@ -32,7 +32,19 @@ export class AuthService{
         });
     }
 
-
+    //aula 129
+    refreshToken(){
+        return this.http.post(`${API_CONFIG.baseUrl}/auth/refresh_token`, 
+        {},
+        {
+            //aguarda a resposta da requisição para capturar o header
+            observe: 'response',
+            /*como o endpoint retorna uma resposta de corpo vazio
+            nós declaramos que a resposta sera um texto, para que o framework
+            não tente fazer um parse no JSON, gerando erro de parse*/
+            responseType: 'text'
+        });
+    }
 
     //aula 122
     sucessfulLogin(authorizationValueBearerToken: string){
