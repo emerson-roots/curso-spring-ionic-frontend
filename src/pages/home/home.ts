@@ -70,4 +70,9 @@ export class HomePage {
         error => { });
   }
 
+  //aula 131
+  signup(){
+    this.navCtrl.push('SignupPage');
+  }
+
 }
