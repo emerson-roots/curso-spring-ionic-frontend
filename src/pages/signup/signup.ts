@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { CidadeDTO } from '../../models/cidade.dto';
+import { EstadoDTO } from '../../models/estado.dto';
+import { CidadeService } from '../../services/domain/cidade.service';
+import { EstadoService } from '../../services/domain/estado.service';
 
 @IonicPage()
 @Component({
@@ -11,11 +15,15 @@ export class SignupPage {
 
   //aula 132
   formGroup: FormGroup
+  estados: EstadoDTO[];
+  cidades: CidadeDTO[];
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    public formBuilder: FormBuilder) {
+    public formBuilder: FormBuilder,
+    public cidadeService: CidadeService,
+    public estadoService: EstadoService) {
 
       //aula 132
       this.formGroup = formBuilder.group({
@@ -37,8 +45,30 @@ export class SignupPage {
       });
   }
 
+  //implementado na aula 133
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SignupPage');
+    this.estadoService.findAll()
+      .subscribe(response => {
+        this.estados = response;
+        //seta na combobox do formulario um estado
+        this.formGroup.controls.estadoId.setValue(this.estados[0].id);
+        this.updateCidades();
+
+      },
+      error => {});
+  }
+
+  //aula 133
+  updateCidades(){
+    //pega o valor da combobox estado selecionado
+    let estado_id = this.formGroup.value.estadoId;
+    this.cidadeService.findAll(estado_id)
+      .subscribe(response => {
+        this.cidades = response;
+        //retira a seleção, tornando a combobox com o valor Nulo
+        this.formGroup.controls.cidadeId.setValue(null);
+      },
+      error => {});
   }
 
   signupUser(){
