@@ -15,7 +15,7 @@
   <!-- aula 118 - mostra/lista as categorias c/ imagens do bucket
   ========================================================== -->
   <ion-list>
-    <button ion-item *ngFor="let item of items">
+    <button ion-item *ngFor="let item of items" (click)="showProdutos()">
       <ion-thumbnail item-start>
         <!--busca imagem da categoria no bucket de acordo com o prefixo "cat" e com o id da categoria retornado loop ngFor-->
         <img src="{{bucketUrl}}/cat{{item.id}}.jpg">

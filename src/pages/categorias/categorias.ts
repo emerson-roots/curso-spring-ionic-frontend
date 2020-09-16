@@ -56,6 +56,9 @@ export class CategoriasPage {
   }
 
 
+  //aula 136
+  showProdutos(){
+    this.navCtrl.push('ProdutosPage');
+  }
 
-
-}
+}//fim da classe
