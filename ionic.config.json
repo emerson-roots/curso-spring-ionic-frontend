@@ -2,6 +2,7 @@
   "name": "cursoSpringIonic",
   "app_id": "",
   "type": "ionic-angular",
+  "cliFlags.interactive":false,
   "integrations": {
     "cordova": {}
   }

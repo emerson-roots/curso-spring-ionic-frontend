@@ -18,11 +18,11 @@ export class HomePage {
   };
 
 
-
   constructor(
     public navCtrl: NavController,
     public menu: MenuController,
     public auth: AuthService) {
+      
   }
 
   /*aula 115
