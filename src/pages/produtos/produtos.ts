@@ -44,6 +44,7 @@ export class ProdutosPage {
         error => { })
   }
 
+  //auça 138
   loadImageUrls() {
     for (var i = 0; i < this.items.length; i++) {
       let item = this.items[i];
@@ -54,9 +55,11 @@ export class ProdutosPage {
           error => { })
     }
 
-
   }
 
-
+  //aula 139
+  showDetail(){
+      this.navCtrl.push('ProdutoDetailPage');
+  }
 
 }//fim da classe
