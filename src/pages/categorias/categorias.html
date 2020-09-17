@@ -15,13 +15,13 @@
   <!-- aula 118 - mostra/lista as categorias c/ imagens do bucket
   ========================================================== -->
   <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="showProdutos()">
+    <button ion-item *ngFor="let cat of categoria" (click)="showProdutos(cat.id)">
       <ion-thumbnail item-start>
         <!--busca imagem da categoria no bucket de acordo com o prefixo "cat" e com o id da categoria retornado loop ngFor-->
-        <img src="{{bucketUrl}}/cat{{item.id}}.jpg">
+        <img src="{{bucketUrl}}/cat{{cat.id}}.jpg">
       </ion-thumbnail>
       <!--mostra a categoria na lista de acordo com o loop ngFor-->
-      <h2>{{item.nome}}</h2>
+      <h2>{{cat.nome}}</h2>
     </button>
   </ion-list>
   <!-- ================ fim da aula 118 ================== -->

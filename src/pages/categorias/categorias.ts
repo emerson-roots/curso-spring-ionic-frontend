@@ -17,7 +17,7 @@ export class CategoriasPage {
   
   /*utilizado no categorias.html
   busca as categorias no banco*/
-  items: CategoriaDTO[];
+  categoria: CategoriaDTO[];
  
 
   constructor(public navCtrl: NavController,
@@ -44,7 +44,7 @@ export class CategoriasPage {
     a resposta obtiver um erro, ambas separadas pela virgula*/
     this.categoriaService.findAll()
       .subscribe(response => {
-        this.items = response;
+        this.categoria = response;
       },
       error => {
         /*na aula 119 foi modificado esta declaracao.
@@ -56,9 +56,22 @@ export class CategoriasPage {
   }
 
 
-  //aula 136
-  showProdutos(){
-    this.navCtrl.push('ProdutosPage');
+  /*aula 136
+  ======================================
+  I M P O R T A N T E
+  .
+  .
+  primeira navegação entre pagina passando 
+  parâmetros entre uma página e outra
+  . 
+  */
+  
+  showProdutos(categoria_id: string){
+
+    //I M P O R T A N T E - o segundo parametro do push
+    //passa parametro da pagina CategoriaPage para a pagina ProdutosPage
+    //no caso, passa o id da categoria para retornar os produtos
+    this.navCtrl.push('ProdutosPage',{cat_id: categoria_id });
   }
 
 }//fim da classe
