@@ -12,17 +12,18 @@ import { ProdutoService } from '../../services/domain/produto.service';
 })
 export class ProdutosPage {
 
-  items : ProdutoDTO[];
+  items: ProdutoDTO[];
 
   constructor(
-            public navCtrl: NavController, 
-            public navParams: NavParams,
-            public produtoService: ProdutoService) {
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public produtoService: ProdutoService) {
   }
 
   ionViewDidLoad() {
 
-    /* alteração na aula 137
+    /**
+     * alteração na aula 137
     I M P O R T A N T E 
     =======================================
     .
@@ -38,10 +39,24 @@ export class ProdutosPage {
         //categoria vem de forma especial (com mais dados, paginação, etc)
         //na resposta nós apenas retornamos o que esta dentro do atributo 'content'
         this.items = response['content'];
-    },
-    error => {})
+        this.loadImageUrls();
+      },
+        error => { })
+  }
+
+  loadImageUrls() {
+    for (var i = 0; i < this.items.length; i++) {
+      let item = this.items[i];
+      this.produtoService.getSmallImageFromBucket(item.id)
+        .subscribe(respponse => {
+          item.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${item.id}-small.jpg`
+        },
+          error => { })
+    }
+
+
   }
 
 
-  
+
 }//fim da classe
