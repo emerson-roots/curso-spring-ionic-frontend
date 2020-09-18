@@ -58,8 +58,8 @@ export class ProdutosPage {
   }
 
   //aula 139
-  showDetail(){
-      this.navCtrl.push('ProdutoDetailPage');
+  showDetail(produto_id: string){
+      this.navCtrl.push('ProdutoDetailPage',{prod_id: produto_id});
   }
 
 }//fim da classe
