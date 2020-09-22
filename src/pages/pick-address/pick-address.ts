@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { EnderecoDTO } from '../../models/endereco.dto';
+import { ClienteService } from '../../services/domain/cliente.service';
+import { StorageService } from '../../services/storage.service';
 
 @IonicPage()
 @Component({
@@ -13,44 +15,33 @@ export class PickAddressPage {
 
   items: EnderecoDTO[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    public storage: StorageService,
+    public clienteService: ClienteService) {
   }
 
+  //implementado na aula 147
   ionViewDidLoad() {
-    this.items = [
-      {
-        id: "1",
-        logradouro: "Rua Quinze de Novembro",
-        numero: "300",
-        complemento: "Apto 200",
-        bairro: "Santa Mônica",
-        cep: "48293822",
-        cidade: {
-          id: "1",
-          nome: "Uberlândia",
-          estado: {
-            id: "1",
-            nome: "Minas Gerais"
-          }
-        }
-      },
-      {
-        id: "2",
-        logradouro: "Rua Alexandre Toledo da Silva",
-        numero: "405",
-        complemento: null,
-        bairro: "Centro",
-        cep: "88933822",
-        cidade: {
-          id: "3",
-          nome: "São Paulo",
-          estado: {
-            id: "2",
-            nome: "São Paulo"
-          }
-        }
-      }
-    ];
+    let localUser = this.storage.getLocalUser();
+    if (localUser && localUser.email) {
+      this.clienteService.findByEmail(localUser.email)
+        .subscribe(response => {
+          //aula 147 - 2:40 - 1° uso de casting - 
+          this.items = response['enderecos'];
+        },
+          error => {
+            /*aula 127 - 
+            caso gere erro, redireciona para a pagina inicial */
+            if (error.status == 403) {
+              this.navCtrl.setRoot('HomePage');
+            }
+          });
+    } else {
+      //aula 127 - redireciona para pagina inicial caso de erro no localUser
+      this.navCtrl.setRoot('HomePage');
+    }
   }
 
 }

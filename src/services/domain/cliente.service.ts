@@ -13,11 +13,18 @@ export class ClienteService {
 
     }
 
-    /* método implementado na aula 125 porém foi alterada na aula 126 */
-    findByEmail(email: string): Observable<ClienteDTO> {
+    /**
+     * método implementado na aula 125 porém foi alterada na aula 126 
+     * 
+     * AULA 147 - nova alteração deste metodo
+     * foi removido a TIPAGEM do tipo ClienteDTO pois aqui no front-end, 
+     * ClienteDTO retorna somente id, nome, email e imagem... 
+     * Ao retirar a tipagem, sera retornado o objeto inteiro do BACK-END, 
+     * inclusive os endereços associados do cliente*/
+    findByEmail(email: string) {
 
         //retorna a requisição do tipo Observable<ClienteDTO> em conjunto do cabeçalho com token
-        return this.http.get<ClienteDTO>(`${API_CONFIG.baseUrl}/clientes/email?value=${email}`);
+        return this.http.get(`${API_CONFIG.baseUrl}/clientes/email?value=${email}`);
     }
 
     //aula 125

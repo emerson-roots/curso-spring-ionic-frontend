@@ -26,7 +26,8 @@ export class ProfilePage {
     if (localUser && localUser.email) {
       this.clienteService.findByEmail(localUser.email)
         .subscribe(response => {
-          this.cliente = response;
+          //aula 147 - 2:40 - 1° uso de casting - 
+          this.cliente = response as ClienteDTO;
           this.getImageIfExists();
         },
           error => {
