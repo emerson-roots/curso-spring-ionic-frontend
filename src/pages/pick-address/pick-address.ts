@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { EnderecoDTO } from '../../models/endereco.dto';
+import { PedidoDTO } from '../../models/pedido.dto';
+import { CartService } from '../../services/domain/cart.service';
 import { ClienteService } from '../../services/domain/cliente.service';
 import { StorageService } from '../../services/storage.service';
 
@@ -15,11 +17,15 @@ export class PickAddressPage {
 
   items: EnderecoDTO[];
 
+  //aula 148 - 6:15
+  pedido: PedidoDTO;
+
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     public storage: StorageService,
-    public clienteService: ClienteService) {
+    public clienteService: ClienteService,
+    public cartService: CartService) {
   }
 
   //implementado na aula 147
@@ -30,6 +36,17 @@ export class PickAddressPage {
         .subscribe(response => {
           //aula 147 - 2:40 - 1° uso de casting - 
           this.items = response['enderecos'];
+
+          let cart = this.cartService.getCart();
+
+          //aula 148
+          this.pedido = {
+            cliente: {id: response['id']},
+            //endereço de entrega e pagamento sera verificado nas proximas telas pelo usuario, por isso são nulos
+            enderecoDeEntrega: null,
+            pagamento: null,
+            itens: cart.items.map(x => {return {quantidade: x.quantidade, produto: {id: x.produto.id}}})
+           }
         },
           error => {
             /*aula 127 - 
@@ -42,6 +59,11 @@ export class PickAddressPage {
       //aula 127 - redireciona para pagina inicial caso de erro no localUser
       this.navCtrl.setRoot('HomePage');
     }
+  }
+
+  nextPage(item: EnderecoDTO){
+    this.pedido.enderecoDeEntrega = {id: item.id};
+    console.log(this.pedido);
   }
 
 }
