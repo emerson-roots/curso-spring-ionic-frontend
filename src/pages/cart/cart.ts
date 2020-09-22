@@ -69,4 +69,9 @@ export class CartPage {
     this.navCtrl.setRoot('CategoriasPage');
   }
 
+  //aula 146
+  checkout(){
+    this.navCtrl.push('PickAddressPage');
+  }
+
 }//fim da classe
