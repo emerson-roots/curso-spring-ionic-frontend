@@ -5,6 +5,7 @@ import { API_CONFIG } from "../config/api.config";
 import { LocalUser } from "../models/local_user";
 import { StorageService } from "./storage.service";
 import { JwtHelper } from 'angular2-jwt';
+import { CartService } from "./domain/cart.service";
 
 
 //aula 121
@@ -15,7 +16,10 @@ export class AuthService{
 
     /*construtor injetando um HttpCliente que envia para o backend o dados de 
     credenciais como login e senha para o endpoint login*/
-    constructor(public http: HttpClient, public storage: StorageService){
+    constructor(
+        public http: HttpClient, 
+        public storage: StorageService,
+        public cartService: CartService){
 
     }
 
@@ -60,6 +64,7 @@ export class AuthService{
 
         //armazena no local storage o usuário com token valido
         this.storage.setLocalUser(user);
+        this.cartService.createOrClearCart();
 
     }
 

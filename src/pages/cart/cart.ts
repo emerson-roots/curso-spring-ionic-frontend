@@ -4,6 +4,7 @@ import { CartItem } from '../../models/cart-item';
 import { ProdutoService } from '../../services/domain/produto.service';
 import { API_CONFIG } from '../../config/api.config';
 import { CartService } from '../../services/domain/cart.service';
+import { ProdutoDTO } from '../../models/produto.dto';
 
 //AULA 141
 @IonicPage()
@@ -38,4 +39,34 @@ export class CartPage {
           error => { });
     }
   }
-}
+
+  //aula 142
+  removeItem(produto: ProdutoDTO){
+    this.items = this.cartService.removeProduto(produto).items;
+  }
+
+  //aula 142
+  increaseQuantity(produto: ProdutoDTO){
+    this.items = this.cartService.increaseQuantity(produto).items;
+  }
+
+  //aula 142
+  decreaseQuantity(produto: ProdutoDTO){
+    this.items = this.cartService.decreaseQuantity(produto).items;
+  }
+
+  //aula 142
+  total() : number{
+    return this.cartService.total();
+  }
+
+  /**
+   * aula 142
+   * 
+   * metodo que continua a compra caso o carrinho seja esvaziado
+  */
+  goOn(){
+    this.navCtrl.setRoot('CategoriasPage');
+  }
+
+}//fim da classe
