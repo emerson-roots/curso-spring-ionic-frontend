@@ -13,7 +13,7 @@
         <ion-list-header>
             Selecione um endereço
         </ion-list-header>
-        <button ion-item *ngFor="let item of items" (click)="nextPage(item)">
+        <button ion-item *ngFor="let item of items" (click)="nextPagePickAddressToPaymentPage(item)">
             <h2>{{item.logradouro}}, N° {{item.numero}}</h2>
             <p>{{item.complemento}} - Bairro: {{item.bairro}} - CEP {{item.cep}}</p>
             <p>{{item.cidade.nome}}, {{item.cidade.estado.nome}}</p>

@@ -61,9 +61,9 @@ export class PickAddressPage {
     }
   }
 
-  nextPage(item: EnderecoDTO){
+  nextPagePickAddressToPaymentPage(item: EnderecoDTO){
     this.pedido.enderecoDeEntrega = {id: item.id};
-    console.log(this.pedido);
+    this.navCtrl.push('PaymentPage', {pedido_param_pick_address_to_payment: this.pedido})
   }
 
 }
