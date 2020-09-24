@@ -13,6 +13,11 @@ export class ClienteService {
 
     }
 
+    //aula 150
+    findById(id: string) {
+        return this.http.get(`${API_CONFIG.baseUrl}/clientes/${id}`);
+    }
+
     /**
      * método implementado na aula 125 porém foi alterada na aula 126 
      * 
