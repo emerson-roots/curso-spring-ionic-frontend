@@ -20,6 +20,7 @@ export class OrderConfirmationPage {
   cartItems: CartItem[];
   cliente: ClienteDTO;
   endereco: EnderecoDTO;
+  codPedidoInseridoParam: string;
 
   constructor(
     public navCtrl: NavController,
@@ -84,13 +85,34 @@ export class OrderConfirmationPage {
     this.pedidoService.insert(this.pedido)
       .subscribe(response => {
         this.cartService.createOrClearCart();
-        console.log(response.headers.get('location'));
+        //armazena o id do pedido inserido no banco que veio no header/cabeçalho "location"
+        this.codPedidoInseridoParam = this.extractId(response.headers.get('location'));
       },
       error => {
         if (error.status == 403) {
           this.navCtrl.setRoot('HomePage');
         }
       });
+  }
+
+  /**aula 152
+   * extrai o id da URL do header "location" após salvar o pedido
+  */
+  private extractId(location: string) : string {
+    
+    //armazena a posição da ultima barra existente na URL 
+    //exemplo: http://localhost:8080/pedidos/3
+    //armazenara a posição da barra antes do numero/id "3"
+    let position = location.lastIndexOf('/')
+
+    /**quebra a string da URL e retorna somente o que tem depois da ultima barra "/"
+     * no caso, é um id do pedido que acabou de ser salvo no banco de dados*/
+    return location.substring(position + 1, location.length);
+  }
+
+  //aula 152
+  home() {
+    this.navCtrl.setRoot('HomePage');
   }
 
 }//fim da classe
