@@ -10,6 +10,13 @@
 
 <ion-content padding>
 
+  <!--aula 154 - refresher ao puxar para baixo a tela para atualizar -->
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content 
+      pullingText="Solte para atualizar..."
+      refreshingSpinner="dots" ></ion-refresher-content>
+  </ion-refresher>
+
     <!--botao flutuante do carrinho-->
     <ion-fab top right edge>
       <button navPush="CartPage" ion-fab mini><ion-icon name="cart"></ion-icon></button>

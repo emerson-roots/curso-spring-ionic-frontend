@@ -22,32 +22,46 @@ export class ProdutosPage {
   }
 
   ionViewDidLoad() {
+    this.loadData();
+  }
+
+  /**
+   * aula 154
+   * 
+   * o codigo inserido neste metodo
+   * nada mais é do que o que estava dentro do metodo
+   * ionViewDidLoad em aulas anteriores a esta
+   * 
+   * foi feito isto para implementar o metodo doRefresh
+  */
+  loadData() {
 
     /**
-     * alteração na aula 137
-    I M P O R T A N T E 
-    =======================================
-    .
-    .
-    recebe valor de parametro passado por outra pagina
-    a string "cat_id" esta recendo o valor declarado no arquivo categoria.ts...
-    Os nomes devem coincidir*/
+    * alteração na aula 137
+    *I M P O R T A N T E 
+    *=======================================
+    *.
+    *.
+    *recebe valor de parametro passado por outra pagina
+    *a string "cat_id" esta recendo o valor declarado no arquivo categoria.ts...
+    *Os nomes devem coincidir*/
     let categoria_id = this.navParams.get('cat_id')
 
     //aula 153 - alert de loading
     let loader = this.presentLoadingDefault();
-    
+
     this.produtoService.findByCategoria(categoria_id)
       .subscribe(response => {
-        //como no backend o endpoint de retornar os produtos de uma determinada
-        //categoria vem de forma especial (com mais dados, paginação, etc)
-        //na resposta nós apenas retornamos o que esta dentro do atributo 'content'
+        /**
+         * como no backend o endpoint de retornar os produtos de uma determinada
+         * categoria vem de forma especial (com mais dados, paginação, etc)
+         * na resposta nós apenas retornamos o que esta dentro do atributo 'content'*/
         this.items = response['content'];
         loader.dismiss();
         this.loadImageUrls();
-        
+
       },
-        error => { 
+        error => {
           loader.dismiss();
         })
   }
@@ -80,6 +94,21 @@ export class ProdutosPage {
     loader.present();
     return loader;
   }
+
+  /**
+   * aula 154
+   * 
+   * atualiza lista de produtos ao arrastar para baixo e soltar a tela
+  */
+  doRefresh(refresher) {
+    this.loadData();
+    setTimeout(() => {
+      refresher.complete();
+    }, 1000);
+
+  }
+
+
 
 
 }//fim da classe
