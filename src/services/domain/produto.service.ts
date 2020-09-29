@@ -16,8 +16,15 @@ export class ProdutoService {
     return this.http.get<ProdutoDTO>(`${API_CONFIG.baseUrl}/produtos/${produto_id}`);
   }
 
-  findByCategoria(categoria_id : string) {
-    return this.http.get(`${API_CONFIG.baseUrl}/produtos/?categorias=${categoria_id}`);
+  /**
+   * metodo sofreu alteração na aula 155 incluindo novos parametros para paginação
+   * 
+   * @param categoria_id 
+   * @param page 
+   * @param linesPerPage 
+   */
+  findByCategoria(categoria_id : string, page : number = 0,  linesPerPage : number = 24) {
+    return this.http.get(`${API_CONFIG.baseUrl}/produtos/?categorias=${categoria_id}&page=${page}&linesPerPage=${linesPerPage}`);
   }
 
   //aula 138
@@ -35,6 +42,7 @@ export class ProdutoService {
     return this.http.get(url,{responseType : 'blob'});
 
   }
+
 
 
 }//fim da classe

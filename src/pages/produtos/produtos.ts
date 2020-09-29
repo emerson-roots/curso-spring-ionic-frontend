@@ -12,7 +12,10 @@ import { ProdutoService } from '../../services/domain/produto.service';
 })
 export class ProdutosPage {
 
-  items: ProdutoDTO[];
+  items: ProdutoDTO[] = [];
+
+  //aula 155
+  page: number = 0;
 
   constructor(
     public navCtrl: NavController,
@@ -50,15 +53,27 @@ export class ProdutosPage {
     //aula 153 - alert de loading
     let loader = this.presentLoadingDefault();
 
-    this.produtoService.findByCategoria(categoria_id)
+    this.produtoService.findByCategoria(categoria_id, this.page, 10)
       .subscribe(response => {
         /**
          * como no backend o endpoint de retornar os produtos de uma determinada
          * categoria vem de forma especial (com mais dados, paginação, etc)
-         * na resposta nós apenas retornamos o que esta dentro do atributo 'content'*/
-        this.items = response['content'];
+         * na resposta nós apenas retornamos o que esta dentro do atributo 'content'
+         * 
+         * trecho sofreu alteração na aula 155 para fazer infinite scroll
+         * invés de retornar o response inteiro ele concatena listas para paginar */
+        //armazena o tamanho da lista
+        let start = this.items.length;
+        //incrementa com uma nova pagina/lista
+        this.items = this.items.concat(response['content']);
+        //armazena o novo final da lista subtraindo 1 item por causa do index de vetor
+        let end = this.items.length - 1
         loader.dismiss();
-        this.loadImageUrls();
+        console.log(this.page);
+        console.log(this.items);
+        //carrega imagens de acordo com o inicio e fim da lista criada pelo infinite scroll
+        //infinite scroll é chamado sempre que a tela é rolada para baixo
+        this.loadImageUrls(start, end);
 
       },
         error => {
@@ -66,9 +81,13 @@ export class ProdutosPage {
         })
   }
 
-  //auça 138
-  loadImageUrls() {
-    for (var i = 0; i < this.items.length; i++) {
+  /**aula 138
+   * 
+   * sofreu alteração na aula 155 para não buscar todas as imagens de uma vez só
+   * mas sim a quantidade de imagens da nova pagina carregada somente
+  */
+  loadImageUrls(start: number, end: number) {
+    for (var i = start; i <= end; i++) {
       let item = this.items[i];
       this.produtoService.getSmallImageFromBucket(item.id)
         .subscribe(respponse => {
@@ -99,8 +118,12 @@ export class ProdutosPage {
    * aula 154
    * 
    * atualiza lista de produtos ao arrastar para baixo e soltar a tela
+   * 
+   * sofreu alteração na aula 155 para atualizar com lista de items e pagina vazia
   */
   doRefresh(refresher) {
+    this.page = 0;
+    this.items = [];
     this.loadData();
     setTimeout(() => {
       refresher.complete();
@@ -108,7 +131,14 @@ export class ProdutosPage {
 
   }
 
-
+  //aula 155 - infinit scroll
+  doInfinite(event) {
+    this.page++;
+    this.loadData();
+    setTimeout(() => {
+      event.complete();
+    }, 1000);
+  }
 
 
 }//fim da classe
