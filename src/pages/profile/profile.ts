@@ -25,7 +25,13 @@ export class ProfilePage {
     public camera: Camera) {
   }
 
+  //metodo alterado na aula 157, codigo transferido para o metodo loadData
   ionViewDidLoad() {
+    this.loadData();
+  }
+
+  //aula 157
+  loadData(){
     let localUser = this.storage.getLocalUser();
     if (localUser && localUser.email) {
       this.clienteService.findByEmail(localUser.email)
@@ -79,4 +85,21 @@ export class ProfilePage {
     });
   }
 
-}
+  //aula 157
+  sendPicture(){
+    this.clienteService.uploadPicture(this.picture_param)
+      .subscribe(response => {
+        this.picture_param = null;
+        //recarrega os dados
+        this.loadData();
+      },
+      error => {
+
+      });
+  }
+
+  //aula 157 - cancela a alteração de imagem de usuario
+  cancel(){
+    this.picture_param = null;
+  }
+}//fim da classe
